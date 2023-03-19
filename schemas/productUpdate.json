@@ -1,0 +1,45 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+
+    "properties": {
+        "name": {
+            "type": "string"
+        },
+        "price": {
+            "type": "integer"
+        },
+        "price_sign": {
+            "type": "string"
+        },
+        "image_link": {
+            "type": "string"
+        },
+        "product_link": {
+            "type": "string",
+            "default": ""
+        },
+        "website_link": {
+            "type": "string",
+            "default": ""
+        },
+        "description": {
+            "type": "string"
+        },
+        "rating": {
+            "type": "null",
+            "default": null
+        },
+        "created_at": {
+            "type": "string",
+            "default": ""
+        },
+        "updated_at": {
+            "type": "string",
+            "default": ""
+        }
+    },
+    "additionalProperties": false,
+    "required": []
+}
