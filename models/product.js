@@ -8,15 +8,14 @@ const { sqlForPartialUpdate } = require("../helpers/sql");
 
 /** Related functions for products. */
 class Product {
-    static async create({ productKey, brandId, name, price, priceSign, prevPrice, imageLink, productLink, websiteLink, description, rating,  numberRating, categoryId, typeId, createdAt, updatedAt }) {
+    static async create({ productKey, brandId, name, price, priceSign, prevPrice, imageLink, description, rating,  numberRating, categoryId, typeId }) {
         const duplicateCheck = await db.query(`SELECT id FROM product WHERE name = $1`, [name])
         if (duplicateCheck.rows[0])
-          throw new BadRequestError(`Duplicate product: ${name}`)
-        const result = await db.query(`INSERT INTO product (product_key, brand_id, name, price, price_sign, prev_price, image_link, product_link, website_link, description, rating,  number_rating, category_id, type_id, created_at, 
-            updated_at) 
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) RETURNING id, product_key, brand_id, name, price, price_sign, prev_price, image_link, product_link, website_link, description, rating,  number_rating, category_id, type_id, created_at, 
-            updated_at`, 
-            [productKey, brandId, name, price, priceSign, prevPrice, imageLink, productLink, websiteLink, description, rating, categoryId, typeId, createdAt, updatedAt ]);
+            throw new BadRequestError(`Duplicate product: ${name}`)
+        const result = await db.query(`INSERT INTO product (product_key, brand_id, name, price, price_sign, prev_price, image_link, description, rating,  number_rating, category_id, type_id
+            ) 
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING id, product_key, brand_id, name, price, price_sign, prev_price, image_link, description, rating,  number_rating, category_id, type_id`, 
+            [productKey, brandId, name, price, priceSign, prevPrice, imageLink, description, rating, numberRating, categoryId, typeId ]);
         return result.rows[0];
     }
 
@@ -91,20 +90,17 @@ class Product {
             {
                 productKey: "product_key",
                 brandId: "brand_id",
-                priceSign: "price_sign",
                 prevPrice: "prev_price",
+                priceSign: "price_sign",
                 imageLink: "image_link",
-                productLink: "product_link",
-                websiteLink: "website_link",
+                numberRating: "number_rating",
                 categoryId: "category_id",
-                typeId: "type_id",
-                createdAt: "created_at",
-                updatedAt: "updated_at"
+                typeId: "type_id"
             }
         )
         const handleVarIdx = "$" + (values.length + 1);
-        const querySql = `UPDATE product SET ${setCols} WHERE id = ${handleVarIdx} RETURNING id, product_key, brand_id, name, price, price_sign, prev_price, image_link, product_link, website_link, description, rating,  number_rating, category_id, type_id, created_at, 
-        updated_at`;
+        const querySql = `UPDATE product SET ${setCols} WHERE id = ${handleVarIdx} RETURNING id, product_key, brand_id, name, price, price_sign, prev_price, image_link, description, rating,  
+        number_rating, category_id, type_id`;
         const result = await db.query(querySql, [...values, id]);
         const product = result.rows[0];       
         return product;

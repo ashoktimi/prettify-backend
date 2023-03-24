@@ -21,6 +21,7 @@ class Brand {
                      HAVING COUNT(p.id) >= 3
                      ) subquery                            
                      ORDER BY subquery.product_count DESC; `);
+                     
         return brandRes.rows;
     }
   

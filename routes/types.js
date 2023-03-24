@@ -32,9 +32,9 @@ router.get("/:type", async function (req, res, next){
     }
 })
 
-router.get("/:type/:name", async function(req, res, next){
+router.get("/:typ/:name", async function(req, res, next){
     try{
-        const type = await Type.get(req.params.name);
+        const type = await Type.get(req.params.typ, req.params.name);
         return res.json({ type });
     } catch (err){
         return next(err);

@@ -36,17 +36,14 @@ CREATE TABLE product (
   brand_id INTEGER REFERENCES brand(id) ON DELETE CASCADE,
   name VARCHAR(255),
   price FLOAT,
+  prev_price FLOAT,
   price_sign VARCHAR(10),
   image_link VARCHAR(500),
-  product_link VARCHAR(500),
-  website_link VARCHAR(500),
   description VARCHAR(10000),
   rating FLOAT,
   number_rating INTEGER,
   category_id INTEGER REFERENCES category(id) ON DELETE CASCADE,
-  type_id INTEGER REFERENCES product_type(id) ON DELETE CASCADE,
-  created_at TIMESTAMP,
-  updated_at TIMESTAMP
+  type_id INTEGER REFERENCES type(id) ON DELETE CASCADE
 );
 
 CREATE TABLE product_color (
@@ -59,7 +56,7 @@ CREATE TABLE product_color (
 CREATE TABLE taglist_product (
   id SERIAL PRIMARY KEY,
   product_id INTEGER REFERENCES product(id) ON DELETE CASCADE,
-  tagList_id INTEGER REFERENCES taglist(id) ON DELETE CASCADE,
+  tagList_id INTEGER REFERENCES taglist(id) ON DELETE CASCADE
 );
 
 CREATE TABLE cart (
